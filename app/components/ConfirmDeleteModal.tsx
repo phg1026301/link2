@@ -15,7 +15,7 @@ export function ConfirmDeleteModal({ isOpen, folderName, onConfirm, onCancel }: 
       <div className="bg-[var(--card)] rounded-[16px] shadow-lg p-6 w-96">
         <h2 className="text-lg font-bold text-[var(--text)] mb-2">폴더 삭제</h2>
         <p className="text-[var(--text-sub)] mb-6">
-          "{folderName}" 폴더를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+          &quot;{folderName}&quot; 폴더와 폴더 안의 북마크를 모두 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
         </p>
         <div className="flex gap-3 justify-end">
           <button

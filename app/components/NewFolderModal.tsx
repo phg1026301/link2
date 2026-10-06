@@ -12,11 +12,15 @@ export function NewFolderModal({ isOpen, onClose }: NewFolderModalProps) {
   const [folderName, setFolderName] = useState('');
   const { addFolder } = useLinks();
 
-  const handleSave = () => {
-    if (folderName.trim()) {
-      addFolder(folderName);
+  const handleSave = async () => {
+    if (!folderName.trim()) return;
+    try {
+      await addFolder(folderName.trim());
       setFolderName('');
       onClose();
+    } catch (error) {
+      console.error('Failed to add folder:', error);
+      alert('폴더 추가에 실패했습니다');
     }
   };
 

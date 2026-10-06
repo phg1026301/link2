@@ -6,20 +6,14 @@ import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
 import { useLinks } from '../context/LinksContext';
 
-export default function NewLinkPage() {
+export function NewLinkForm() {
   const router = useRouter();
-  const { addLink } = useLinks();
+  const { addLink, folders: allFolders } = useLinks();
   const [linkUrl, setLinkUrl] = useState('');
-  const [selectedFolder, setSelectedFolder] = useState('development');
+  const [selectedFolder, setSelectedFolder] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const folders = [
-    { id: 'all', name: 'All' },
-    { id: 'work', name: 'Work' },
-    { id: 'learning', name: 'Learning' },
-    { id: 'design', name: 'Design' },
-    { id: 'development', name: 'Development' },
-  ];
+  const folders = allFolders.filter((folder) => folder.id !== 'all');
 
   const extractTitleFromUrl = (url: string): string => {
     try {
@@ -39,11 +33,11 @@ export default function NewLinkPage() {
     setIsLoading(true);
     try {
       const title = extractTitleFromUrl(linkUrl);
-      addLink({
+      await addLink({
         title: title,
         description: `Saved link from ${title}`,
         url: linkUrl,
-        folder: selectedFolder.charAt(0).toUpperCase() + selectedFolder.slice(1),
+        folderId: selectedFolder || null,
       });
       router.push('/');
     } catch (error) {
@@ -89,6 +83,7 @@ export default function NewLinkPage() {
                   onChange={(e) => setSelectedFolder(e.target.value)}
                   className="w-full px-4 py-3 border border-[var(--border)] rounded-[10px] bg-[var(--card)] text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] transition-smooth"
                 >
+                  <option value="">미분류</option>
                   {folders.map((folder) => (
                     <option key={folder.id} value={folder.id}>
                       {folder.name}
